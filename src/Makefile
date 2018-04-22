@@ -1,16 +1,11 @@
-# 编译器
-CC = gcc
-CXX= g++
+# 编译器  
+CC  = gcc
+CXX = g++
 
 BASE ?= ./
-SRC ?= ./src/
-BIN ?= ./bin/
-CFLAGS = -Wall 
-CXXFLAGS = -Wall
-
-
-
-
+SRC ?= ../src
+BIN ?= ../bin
+TMP=../tmp/
 
 
 # 头文件
@@ -22,25 +17,38 @@ LIB +=   \
 	-lm -lz \
 	-Wl,-Bstatic -L/usr/lib64 -lpthread \
 	-Wl,-Bdynamic -lstdc++ -std=c++11
+
+OBJ :=\
+$(addprefix $(TMP), \
+$(addsuffix .o, $(basename $(notdir $(wildcard ./*.cpp)))))
+
+TARGET=$(BIN)/test
+CFLAGS = -Wall 
+#-MF 将依赖关系输出到指定.d文件路径 DEP
+CXXFLAGS = -Wall -MMD -MP -MF
+DEP:=$(wildcard $(addsuffix .d, ${OBJ}))
+
 	
-
-
 	
-	
-all:test
+$(TARGET):$(OBJ)
+	$(CXX) -o $@ $^
 
-test: test.o ./fact/fact.o
-	$(CXX) -Wall test.o  ./fact/fact.o -o test  $(LIB)
+$(OBJ):$(TMP)%.o:$(SRC)/%.cpp
+	$(CXX) -c  $(INC) $(CXXFLAGS)  $@.d -o $@ $<
+#test: test.o  fact/fact.o
+#	$(CXX) -Wall test.o  ./fact/fact.o -o test  $(LIB)
 
 
-test.o: test.cpp
-	$(CC) -c $(CFLAGS) test.cpp  $(INC)
+#test.o: test.cpp
+#	$(CC) -c $(CFLAGS) test.cpp  $(INC)
 
-./fact/fact.o:./fact/fact.cpp
-	$(CC) -c $(CXXFLAGS) $@.d -o $@ $<
+#./fact/fact.o: fact/fact.cpp
+#	$(CXX) -c $(CXXFLAGS) $@.d -o $@ $< #$@.d 依赖文件
 
 	
 # clean声明为伪目标，每次都执行对应的命令
 .PHONEY: clean 
 clean:
-	rm -fr *.o test
+	-rm -fr *.o test  
+
+-include $(DEP)
