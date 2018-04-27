@@ -15,8 +15,8 @@ INC += -I../include
 # 库文件
 LIB +=   \
 	-lm -lz \
-	-Wl,-Bstatic -L/usr/lib64 -lpthread \
-	-Wl,-Bdynamic -lstdc++ 
+	-Wl,-Bstatic -L/usr/lib64 -pthread -Wl,--no-as-needed \
+	-Wl,-Bdynamic -lstdc++  -L/usr/local/lib -leasyloggingpp
 
 OBJ :=\
 $(addprefix $(TMP)/, \
