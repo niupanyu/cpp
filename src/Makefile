@@ -29,7 +29,7 @@ $(addsuffix .o, $(basename $(notdir $(wildcard fact/*.cpp)))))
 TARGET=$(BIN)/test
 CFLAGS = -Wall 
 #-MF 将依赖关系输出到指定.d文件路径 DEP
-CXXFLAGS =  -Wall -MMD -MP -MF 
+CXXFLAGS =  -Wall -std=c++11 -MMD -MP -MF 
 
 DEP:=$(wildcard $(addsuffix .d, ${OBJ})) 
 
@@ -38,11 +38,11 @@ $(TARGET):$(OBJ2)  $(OBJ)
 	$(CXX) -o $@ $^ $(LIB)
 
 $(OBJ2):$(TMP)/%.o:$(SRC)/fact/%.cpp 
-	$(CXX) ​​​​​​​​​​​​​​​​​​​-c  $(INC) $(CXXFLAGS)  $@.d -o $@ $< 
+	$(CXX) -c  $(INC) $(CXXFLAGS)  $@.d -o $@ $< 
 
 
 $(OBJ):$(TMP)/%.o:$(SRC)/%.cpp 
-	$(CXX) -std=c++11 -c  $(INC) $(CXXFLAGS)  $@.d -o $@ $< 
+	$(CXX)  -c  $(INC) $(CXXFLAGS)  $@.d -o $@ $< 
 
 
 #test: test.o  fact/fact.o
