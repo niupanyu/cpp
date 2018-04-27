@@ -16,7 +16,7 @@ INC += -I../include
 LIB +=   \
 	-lm -lz \
 	-Wl,-Bstatic -L/usr/lib64 -lpthread \
-	-Wl,-Bdynamic -lstdc++ -std=c++11
+	-Wl,-Bdynamic -lstdc++ 
 
 OBJ :=\
 $(addprefix $(TMP)/, \
@@ -29,19 +29,22 @@ $(addsuffix .o, $(basename $(notdir $(wildcard fact/*.cpp)))))
 TARGET=$(BIN)/test
 CFLAGS = -Wall 
 #-MF 将依赖关系输出到指定.d文件路径 DEP
-CXXFLAGS = -Wall -MMD -MP -MF
-DEP:=$(wildcard $(addsuffix .d, ${OBJ}))
+CXXFLAGS =  -Wall -MMD -MP -MF 
 
-	
-	
-$(TARGET):$(OBJ) $(OBJ2)
+DEP:=$(wildcard $(addsuffix .d, ${OBJ})) 
+
+
+$(TARGET):$(OBJ2)  $(OBJ)
 	$(CXX) -o $@ $^ $(LIB)
 
-$(OBJ):$(TMP)/%.o:$(SRC)/%.cpp 
-	$(CXX) -c  $(INC) $(CXXFLAGS)  $@.d -o $@ $< 
-
 $(OBJ2):$(TMP)/%.o:$(SRC)/fact/%.cpp 
-	$(CXX) -c  $(INC) $(CXXFLAGS)  $@.d -o $@ $< 	
+	$(CXX) ​​​​​​​​​​​​​​​​​​​-c  $(INC) $(CXXFLAGS)  $@.d -o $@ $< 
+
+
+$(OBJ):$(TMP)/%.o:$(SRC)/%.cpp 
+	$(CXX) -std=c++11 -c  $(INC) $(CXXFLAGS)  $@.d -o $@ $< 
+
+
 #test: test.o  fact/fact.o
 #	$(CXX) -Wall test.o  ./fact/fact.o -o test  $(LIB)
 
