@@ -41,9 +41,12 @@ void rollLog(){
     
     logRotatorThread.detach();
 }
+
+extern void jsontest();
 INITIALIZE_EASYLOGGINGPP
 
 int main(){
+    jsontest();
     el::Configurations cfg("../cfg/easylogging.cfg");
     el::Loggers::reconfigureAllLoggers(cfg);
     std::string tmp  = "ee";
