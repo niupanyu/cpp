@@ -29,7 +29,11 @@ int main()
 
     cout << f() << endl;
 
-
+    volatile int i;
+    i = 0;
+    i = !i;
+    i = !i;
+    cout << i << endl;
 
     return 0;
 };
