@@ -29,11 +29,13 @@ int main()
 
     cout << f() << endl;
 
-    volatile int i;
-    i = 0;
-    i = !i;
-    i = !i;
-    cout << i << endl;
+    for(int i = 0; i < 10; i++)
+    {
+        int j ;
+        int k;
+        cout << &j << &k << endl;
+    }
+
 
     return 0;
 };
